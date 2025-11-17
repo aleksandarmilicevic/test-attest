@@ -1,0 +1,24 @@
+name: Publish
+
+on:
+  workflow_dispatch
+
+jobs:
+  publish:
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build
+      run: echo "[$(date)] hello world" > output.txt
+    - uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4
+      with:
+        name: output.txt
+        path: output.txt
+    - uses: actions/attest-build-provenance@520d128f165991a6c774bcb264f323e3d70747f4 # v2.2.0
+      with:
+        subject-path: output.txt
+
+
